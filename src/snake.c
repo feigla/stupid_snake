@@ -24,10 +24,23 @@ void generate_apple(COORDINATE *coord_apple, COORDINATE **coord_snake, int size)
 	mvaddstr(coord_apple->y, coord_apple->x, "@");
 }
 
-COORDINATE **move_snake(COORDINATE **coord_snake, int *size, int shift_x, int shift_y, COORDINATE *coord_apple)
-{		
-	int i;
+int protect_snake(COORDINATE **coord_snake, int size) 
+{
+	int i, row, col;
+	getmaxyx(stdscr, row, col);
 
+	if(coord_snake[0]->x == 0 || coord_snake[0]->y == 0 || coord_snake[0]->x == col - 1 || coord_snake[0]->y == row - 1)
+		return 0;
+
+	for(i = 1; i < size; i++) 
+		if(coord_snake[0]->x == coord_snake[i]->x && coord_snake[0]->y == coord_snake[i]->y) return 0;
+
+	return 1;
+}
+
+COORDINATE **move_snake(COORDINATE **coord_snake, int *size, int shift_x, int shift_y, COORDINATE *coord_apple)
+{	
+	int i;	
 	if(coord_apple->y == coord_snake[0]->y && coord_apple->x == coord_snake[0]->x) {
 		coord_snake = realloc(coord_snake, (*size + 1) * (sizeof(COORDINATE *)));
 		coord_snake[*size] = malloc(sizeof(COORDINATE));

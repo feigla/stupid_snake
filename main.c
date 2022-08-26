@@ -22,6 +22,7 @@ static void init_game()
 	DIRECTION cur_dir = LEFT;
 	COORDINATE **coord_snake = NULL;
 	COORDINATE coord_apple;	
+	
 	initscr();
 	cbreak();
 	keypad(stdscr, 1);
@@ -37,12 +38,15 @@ static void init_game()
 	refresh();
 
 	do {
+		if (!protect_snake(coord_snake, snake_size)) break;
 		key = getch();
 		set_direction(&cur_dir, key);
 		coord_snake = move_snake(coord_snake, &snake_size, cur_dir.x, cur_dir.y, &coord_apple);
 		timeout(30);
 	} while(key != KEY_ESC);
-	
+
+	printf("YOUR SCORE %d", snake_size);
+
 	clear_coord_snake(&coord_snake, snake_size);
 	
 	endwin();
