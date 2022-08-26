@@ -8,9 +8,7 @@ static void init_fields()
 	getmaxyx(stdscr, row, col);
 	for(y = 0; y < row; y++) {	
 		for(x = 0; x < col; x++) {
-			if(x == 0 || y == 0 || y == row - 1 || x == col - 1) {
-				mvaddstr(y, x, "#");
-			}
+			if(x == 0 || y == 0 || y == row - 1 || x == col - 1) mvaddstr(y, x, "#");
 		}
 
 	}
